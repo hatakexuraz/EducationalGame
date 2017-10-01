@@ -12,13 +12,13 @@ import java.util.logging.Logger;
  *
  * @author hatake_47
  */
-public class ChapterController {
+public class MathsChapterController {
     private PreparedStatement pstmt;
     private ResultSet rs;
     private Connection con = null;
     
     //this function is created to make the connection with the database
-    public ChapterController(){
+    public MathsChapterController(){
         if(con==null){
             con = DBConnect.getConnection();
         }
@@ -30,7 +30,7 @@ public class ChapterController {
     public ArrayList getContent(int id){                        
         ArrayList<String> content = new ArrayList<>();        //a variable 'content' is created and initialized
                 
-        String query="Select * from GKChapter where id=?";    //a query to retrive the row of cretain id
+        String query="Select * from MathematicsNumber where id=?";    //a query to retrive the row of cretain id
         
         try {                                                 //use of 'try' statement
             pstmt = con.prepareStatement(query);              //query is precompiled to send to the database 
@@ -44,7 +44,7 @@ public class ChapterController {
             }
             
         } catch (Exception e) {                              //grabs the error during runtime
-            Logger.getLogger(ChapterController.class.getName()).log(Level.SEVERE, null, e); //
+            Logger.getLogger(MathsChapterController.class.getName()).log(Level.SEVERE, null, e); //
         }
         
         
@@ -54,7 +54,7 @@ public class ChapterController {
     public ArrayList getOptions(int id){
         ArrayList<String> option = new ArrayList<>(); 
         
-        String query="Select * from GKOptions where id=?";
+        String query="Select * from MathematicsNumberOption where id=?";
         
         try {
             pstmt = con.prepareStatement(query);
@@ -67,7 +67,7 @@ public class ChapterController {
                 option.add(rs.getString("que_no"));          //Add the options on ArrayList 'option'
             }
         } catch (Exception e) {
-            Logger.getLogger(ChapterController.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(MathsChapterController.class.getName()).log(Level.SEVERE, null, e);
         }
         
         return option;

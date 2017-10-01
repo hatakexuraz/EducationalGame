@@ -9,6 +9,8 @@
     <class>model.Point</class>
     <class>model.User</class>
     <class>model.AssessmentScience</class>
+    <class>model.MathematicsNumber</class>
+    <class>model.MathematicsNumberOption</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Educational Game?zeroDateTimeBehavior=convertToNull"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
