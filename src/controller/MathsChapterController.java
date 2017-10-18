@@ -72,4 +72,50 @@ public class MathsChapterController {
         
         return option;
     }
+    
+    public ArrayList getAssessmentContent(int id){                        
+        ArrayList<String> content = new ArrayList<>();        //a variable 'content' is created and initialized
+                
+        String query="Select * from MathematicsArithmetic where id=?";    //a query to retrive the row of cretain id
+        
+        try {                                                 //use of 'try' statement
+            pstmt = con.prepareStatement(query);              //query is precompiled to send to the database 
+            pstmt.setInt(1, id);                              //the value of id is set here
+            rs = pstmt.executeQuery();                        //query on 'pstmt' is executed and returns an ResultSet
+            
+            while(rs.next()){                                 //loops until there is any value on 'rs'
+
+                content.add(rs.getString("question"));        //Add the value on ArrayList 'content'
+                content.add(rs.getString("answer"));          //Add the value on ArrayList 'content'
+            }
+            
+        } catch (Exception e) {                              //grabs the error during runtime
+            Logger.getLogger(MathsChapterController.class.getName()).log(Level.SEVERE, null, e); //
+        }
+        
+        
+        return content;                             //return the ArrayList 'content'
+    }
+    
+    public ArrayList getAssessmentOptions(int id){
+        ArrayList<String> option = new ArrayList<>(); 
+        
+        String query="Select * from MathematicsArithmeticOption where id=?";
+        
+        try {
+            pstmt = con.prepareStatement(query);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+            
+            while(rs.next()){                                 //loops until there is any value on 'rs'
+
+                option.add(rs.getString("options"));        //Add the options on ArrayList 'option'
+                option.add(rs.getString("que_no"));          //Add the options on ArrayList 'option'
+            }
+        } catch (Exception e) {
+            Logger.getLogger(MathsChapterController.class.getName()).log(Level.SEVERE, null, e);
+        }
+        
+        return option;
+    }
 }

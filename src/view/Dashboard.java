@@ -6,11 +6,22 @@ package view;
  */
 public class Dashboard extends javax.swing.JFrame {
     
+    private String mod=null;
+    private String unit=null;
+    private String option = null;
     /**
      * Creates new form Dashboard
      */
     public Dashboard() {
         initComponents();
+        
+        pnl_math.setVisible(false);
+    }
+    
+    public Dashboard(String option) {
+        initComponents();
+        
+        this.option = option;
         
         pnl_math.setVisible(false);
     }
@@ -93,7 +104,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(lbl_point)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_set)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 543, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_start, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -113,7 +124,7 @@ public class Dashboard extends javax.swing.JFrame {
         tbl_maths.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"1", "Numbers"},
-                {"2", "Fractions"},
+                {"2", "Arithmetics"},
                 {"3", "Whole Number"},
                 {null, null}
             },
@@ -128,17 +139,19 @@ public class Dashboard extends javax.swing.JFrame {
         pnl_mathLayout.setHorizontalGroup(
             pnl_mathLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_mathLayout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(17, 17, 17)
                 .addComponent(pane_math, javax.swing.GroupLayout.PREFERRED_SIZE, 853, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
         pnl_mathLayout.setVerticalGroup(
             pnl_mathLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_mathLayout.createSequentialGroup()
-                .addGap(70, 70, 70)
+                .addGap(25, 25, 25)
                 .addComponent(pane_math, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(116, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        pnl_gk.setPreferredSize(new java.awt.Dimension(882, 254));
 
         tbl_gk.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -157,21 +170,17 @@ public class Dashboard extends javax.swing.JFrame {
         pnl_gk.setLayout(pnl_gkLayout);
         pnl_gkLayout.setHorizontalGroup(
             pnl_gkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 952, Short.MAX_VALUE)
-            .addGroup(pnl_gkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnl_gkLayout.createSequentialGroup()
-                    .addGap(47, 47, 47)
-                    .addComponent(pane_gk, javax.swing.GroupLayout.PREFERRED_SIZE, 856, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(49, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gkLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(pane_gk, javax.swing.GroupLayout.PREFERRED_SIZE, 856, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         pnl_gkLayout.setVerticalGroup(
             pnl_gkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 409, Short.MAX_VALUE)
-            .addGroup(pnl_gkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(pnl_gkLayout.createSequentialGroup()
-                    .addGap(70, 70, 70)
-                    .addComponent(pane_gk, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(115, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gkLayout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addComponent(pane_gk, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pane_content.setLayer(pnl_math, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -181,7 +190,7 @@ public class Dashboard extends javax.swing.JFrame {
         pane_content.setLayout(pane_contentLayout);
         pane_contentLayout.setHorizontalGroup(
             pane_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pane_contentLayout.createSequentialGroup()
+            .addGroup(pane_contentLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnl_math, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -195,26 +204,24 @@ public class Dashboard extends javax.swing.JFrame {
             pane_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pane_contentLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnl_math, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(pnl_math, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(69, Short.MAX_VALUE))
             .addGroup(pane_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pane_contentLayout.createSequentialGroup()
+                .addGroup(pane_contentLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(pnl_gk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+                    .addComponent(pnl_gk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(70, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(pnl_header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(482, 482, 482))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(pnl_cmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(6, 6, 6))
-            .addComponent(pane_content)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(pane_content, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 25, Short.MAX_VALUE))
+            .addComponent(pnl_cmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnl_header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,24 +237,29 @@ public class Dashboard extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_startActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_startActionPerformed
-       
-        String module;
-        String unit;
-        module = cmb_modules.getSelectedItem().toString();
+        mod = cmb_modules.getSelectedItem().toString();
         
-        if(module.equals("GK")){
+        if(mod.equals("GK")){
             unit = (String) tbl_gk.getValueAt(tbl_gk.getSelectedRow(), tbl_gk.getSelectedColumn());
             
-            GKModule sc = new GKModule(unit);
+            GKModule sc = new GKModule(unit, option);
             sc.setVisible(true);
             sc.setLocationRelativeTo(null);
         }
         else{
             unit = (String) tbl_maths.getValueAt(tbl_maths.getSelectedRow(), tbl_maths.getSelectedColumn());
             
-            MathsModule math = new MathsModule(unit);
-            math.setVisible(true);
-            math.setLocationRelativeTo(null);
+            if(unit.equals("Arithmetics")){
+                MathsAssessment ma = new MathsAssessment(unit);
+                ma.setVisible(true);
+                ma.setLocationRelativeTo(null);
+            }
+            else{
+                MathsModule math = new MathsModule(unit);
+                math.setVisible(true);
+                math.setLocationRelativeTo(null);
+            }
+            
         }
     }//GEN-LAST:event_btn_startActionPerformed
 
@@ -270,16 +282,6 @@ public class Dashboard extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_lbl_setMouseClicked
-
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Dashboard db = new Dashboard();
-                db.setLocationRelativeTo(null);
-                db.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_start;

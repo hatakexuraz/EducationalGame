@@ -5,12 +5,11 @@ import controller.MathsChapterController;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
 
 /**
  *
@@ -18,28 +17,31 @@ import javax.swing.JOptionPane;
  */
 public class MathsModule extends QuestionList {
 
-    private ArrayList<String> que=null;
-    private ArrayList<String> opt=null;
-    private ArrayList<String> ans=null;
+     private ArrayList<String> que=null;     //to store questions first hand after receiving from the database
+    private ArrayList<String> opt=null;     //to store options first hand after receiving from the database
+    private ArrayList<String> select= new ArrayList<>();  //to store the selected options
+    private ArrayList<String> ans = null;  //to store the corect option of the given question
     
     private String unit=null;
     private String selectedOpt=null;
     private String answer=null;
     
+    private int user;                     //to store user id
+    
     private static int i=1;
+    
     private static int l=1;
+    private static int in = 0;
     
-    private int no=1;
+    private static int point=0;
     
-    private int point=0;
-    
-    private String option;
-    private String[] optn2 = null;
+    private String option;                  //to store options all at once
+    private String[] optn2 = null;          //to store options in different index
     
     public MathsModule() {
         initComponents();
         
-        listQuestion();
+        listQuestion();         //list the questions as soon as the module opens
         
         btn_prev.setVisible(false);
         btn_finish.setVisible(false);
@@ -48,7 +50,7 @@ public class MathsModule extends QuestionList {
     public MathsModule(String unit) {
         this.unit = unit;
         
-        initComponents();
+        initComponents();       //list the questions as soon as the module opens
         
         listQuestion();
         
@@ -183,6 +185,11 @@ public class MathsModule extends QuestionList {
                     .addGap(40, 40, 40)))
         );
 
+        btn_group.add(opt1);
+        btn_group.add(opt2);
+        btn_group.add(opt3);
+        btn_group.add(opt3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -201,15 +208,17 @@ public class MathsModule extends QuestionList {
         // TODO add your handling code here:
     }//GEN-LAST:event_opt3ActionPerformed
 
+    //this function is written to list the remaining question other than first
     private void btn_nxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nxtActionPerformed
         btn_group.clearSelection();
-        no++;
-        lbl_num.setText(Integer.toString(no));
         
         Object source = evt.getSource();    //get the event source in the variable 'source'
 
         MathsChapterController maths = new MathsChapterController();     //initialized MathsChapterController
         if(source.equals(btn_nxt)){                      //checks if the button is clicked
+            
+            lbl_num.setText(Integer.toString(l));
+        
             que = new ArrayList<>();                         //initialize the 'que' variable of ArrayList
             que.addAll(maths.getContent(l));                    //Add all the values received from the function 'getContent' of MathsChapterController
             //lbl_que.setText(que.get(0));                     //set the text on 'lbl_que' which was stored in ArrayList 'que'
@@ -218,48 +227,15 @@ public class MathsModule extends QuestionList {
             opt = new ArrayList<>();
             opt.addAll(maths.getOptions(l));
             
-            setLabel(que, opt);
+            listQuestion(l);
             
-            l++;                                            //increment the value of l by 1
-            
-            String next = getSelectedButton(btn_group);
-            while(next.contains("")){
-                JOptionPane.showMessageDialog(null, "Please select one option!");
-            }
+            selectedOption();
             
             if(l>10){                               //checks if 'que' is empty        
                 if(source.equals(btn_nxt)){              //checks if the button is clicked
-//                    Point pnt = new Point();                //initilize Point 'pnt' variable
-//                    pnt.setVisible(true);                   //make the frame 'pnt' visibkle
-//                    pnt.setLocation(pnl_gkmod.getWidth()-200, pnl_gkmod.getHeight()-200); //set the location of 'pnt'
                     btn_nxt.setVisible(false);
                     btn_finish.setVisible(true);
                 }
-            }
-            
-            if(source.equals(btn_nxt)){             //checks if button clicked is button next
-                btn_prev.setVisible(true);          //set the button visibility to true
-//                
-//                if(opt1.isSelected()){
-//                    getPoint(opt1.getText());
-//                    System.out.println(opt1.getText());
-//                }
-//                else if(opt2.isSelected()){
-//                    getPoint(opt2.getText());
-//                    System.out.println(opt2.getText());
-//                }
-//                else if(opt3.isSelected()){
-//                    getPoint(opt3.getText());
-//                    System.out.println(opt3.getText());
-//                }
-//                else if(opt4.isSelected()){
-//                    getPoint(opt4.getText());
-//                    System.out.println(opt4.getText());
-//                }
-                
-//                selectedOpt=getSelectedButton(btn_group);
-//                System.out.println(answer+" || "+selectedOpt);
-//                getPoint(selectedOpt,answer);
             }
 
             if(source.equals(btn_prev)){
@@ -276,8 +252,6 @@ public class MathsModule extends QuestionList {
 
     private void btn_prevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_prevActionPerformed
         btn_group.clearSelection();
-        lbl_num.setText(Integer.toString(no));
-        no--;
         
         l--;                                            //decrement the value of 'l' by 1
 
@@ -286,15 +260,9 @@ public class MathsModule extends QuestionList {
         MathsChapterController maths = new MathsChapterController();     //initialized MathsChapterController
 
         if(source.equals(btn_prev)){                      //checks if the button is clicked
-            que = new ArrayList<>();                         //initialize the 'que' variable of ArrayList
-            que.addAll(maths.getContent(l));                    //Add all the values received from the function 'getContent' of MathsChapterController
-            lbl_que.setText(que.get(0));                     //set the text on 'lbl_que' which was stored in ArrayList 'que'
-            answer = que.get(1);
+            lbl_num.setText(Integer.toString(l));
             
-            opt = new ArrayList<>();
-            opt.addAll(maths.getOptions(l));
-
-            setLabel(que, opt);            
+            listQuestion(l);
 
             if(source.equals(btn_prev)){                    //checks if button clicked is button previous
                 btn_nxt.setVisible(true);                   //set the button visibility to true
@@ -307,10 +275,6 @@ public class MathsModule extends QuestionList {
             }
             
             if(source.equals(btn_nxt)){
-                
-//                selectedOpt=getSelectedButton(btn_group);
-//                System.out.println(answer+" || "+selectedOpt);
-//                getPoint(selectedOpt,answer);
                 l++;
                 btn_nxt.addActionListener(new ActionListener() {
                     @Override
@@ -323,35 +287,46 @@ public class MathsModule extends QuestionList {
     }//GEN-LAST:event_btn_prevActionPerformed
 
     private void listQuestion() {
-        btn_group.clearSelection();
-        lbl_num.setText(Integer.toString(no));
+        ans = new ArrayList<>();
         
         int j=1;                                            //value of 'j' is provided
+        
+        lbl_num.setText(Integer.toString(j));
         
         MathsChapterController maths = new MathsChapterController();     //initialized MathsChapterController
                        
         que = new ArrayList<>();                             //initialize the 'que' variable of ArrayList 
         que.addAll(maths.getContent(j));                        //Add all the values received from the function 'getContent' of GKChapterController
         lbl_que.setText(que.get(0));                         //set the text on 'lbl_que' which was stored in ArrayList 'que'
-        answer = que.get(1);
-        l++;                                                //increment the value of l by 1
+        l=2;
+        
+        ans.add(que.get(1));
         
         opt = new ArrayList<>();                            //initialize the 'opt' variable of ArrayList 
         opt.addAll(maths.getOptions(j));
         
-        
         setLabel(que, opt);
         
-        btn_nxt.addActionListener(new ActionListener() { //method overwritten to call the function 'addActionListener'
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                btn_nxt.addActionListener(this);         //calls the function 'addActionListener'
-                
-//                selectedOpt=getSelectedButton(btn_group);
-//                System.out.println(answer+" || "+selectedOpt);
-//                getPoint(selectedOpt,answer);
-            }
-        });
+        selectedOption();
+    }
+    
+    private void listQuestion(int j) {
+        btn_group.clearSelection();
+        lbl_num.setText(Integer.toString(j));
+        
+        MathsChapterController maths = new MathsChapterController();     //initialized MathsChapterController
+                       
+        que = new ArrayList<>();                             //initialize the 'que' variable of ArrayList 
+        que.addAll(maths.getContent(j));                        //Add all the values received from the function 'getContent' of GKChapterController
+        lbl_que.setText(que.get(0));                         //set the text on 'lbl_que' which was stored in ArrayList 'que'
+        l++;
+        
+        ans.add(que.get(1));
+        
+        opt = new ArrayList<>();                            //initialize the 'opt' variable of ArrayList 
+        opt.addAll(maths.getOptions(j));
+        
+        setLabel(que, opt);
     }
     
     //this function count the total "sp" word available in the derived value
@@ -370,15 +345,9 @@ public class MathsModule extends QuestionList {
     
     //this function sets the text of the options and the questions
     public void setLabel(ArrayList<String> question, ArrayList<String> options){
-        btn_group.add(opt1);
-        btn_group.add(opt2);
-        btn_group.add(opt3);
-        btn_group.add(opt4);
-        
-        lbl_que.setText(question.get(0));           //sets the label for the question
-        
+                
         option = options.get(0);                    //get the value of option
-        optn2=option.split("sp");                   //split the driven value if found "sp"
+        optn2=option.split(" sp ");                   //split the driven value if found "sp"
 
         if(optionTwo(options.toString())==1){       //sends the value of 'options' to the function 'optionTwo' and
             opt3.setVisible(false);                 //only set two radio button visible if there are two option
@@ -405,31 +374,58 @@ public class MathsModule extends QuestionList {
             opt4.setText(optn2[3]);
         }
         
-        selectedOpt=getSelectedButton(btn_group);
-        System.out.println(answer+" || "+selectedOpt);
-        getPoint(selectedOpt,answer);
+        que.clear();
+        opt.clear();
+        btn_prev.setVisible(true);
     }
     
-    //increase the value of point if selected answer is correct 
-    public void getPoint(String option,String answer2){
-        
-        if(answer2.equals(option)){
-            point=point+1;
-            System.out.println(point);
-        }
-    }
-    
-    //returns the text of selected radio button
-    public String getSelectedButton(ButtonGroup group)
-    {  
-        for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
-                AbstractButton button = buttons.nextElement();
-                if (button.isSelected()) {
-                    System.out.println(button.isSelected());
-                    return button.getText();
+    //increase the value of point if selected answer is correct     
+    public int getPoint (ArrayList<String> copt, ArrayList<String> answer){ 
+        int che=0;
+        for(int ch=0; ch<copt.size(); ch++){
+            for(int x=0; x<answer.size(); x++){
+                if(copt.get(ch).equals(answer.get(x))){
+                    System.out.println(copt.get(ch)+" equals "+answer.get(x));
+                    che++;
                 }
             }
-        return null;
+        }
+        
+        return che;
+    }
+    
+    public ArrayList<String> removeDuplicate(ArrayList<String> copt){
+        System.out.println("Old "+copt);
+        Set<String> primesWithoutDuplicates;
+        primesWithoutDuplicates = new LinkedHashSet<String>(copt);
+        
+        copt.clear();
+        copt.addAll(primesWithoutDuplicates);
+        
+        System.out.println(copt);
+        return copt;
+    }
+    
+    public void selectedOption(){
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() instanceof JRadioButton){
+                    JRadioButton radioButton = (JRadioButton) e.getSource();
+                    if(radioButton.isSelected()){
+                        select.add(in, radioButton.getText());
+                        System.out.println(radioButton.getText()+"  "+in);
+                        radioButton.removeAll();
+                    }
+                    in++;
+                }
+            }
+        };
+        
+        opt1.addActionListener(actionListener);
+        opt2.addActionListener(actionListener);
+        opt3.addActionListener(actionListener);
+        opt4.addActionListener(actionListener);
     }
     
     private void opt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt1ActionPerformed
@@ -438,6 +434,22 @@ public class MathsModule extends QuestionList {
 
     private void btn_finishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_finishActionPerformed
         this.dispose();
+        
+        select.addAll(removeDuplicate(select));
+        System.out.println("New selected without duplicate is " +select);
+        System.out.println("Answer is " +ans);
+        
+        point=getPoint(select, ans);
+        System.out.println("Point is:" +point);
+        
+        select.clear();
+        ans.clear();
+        
+        this.setVisible(false);
+        
+        Point pnt = new Point(point, user, unit);  //initilize Point 'pnt' variable
+        pnt.setVisible(true);             //make the frame 'pnt' visibkle
+        pnt.setLocation(pnl_gkmod.getWidth()-200, pnl_gkmod.getHeight()-200); //set the location of 'pnt'
     }//GEN-LAST:event_btn_finishActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

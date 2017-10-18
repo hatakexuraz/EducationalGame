@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -21,17 +23,20 @@ public class GKModule extends QuestionList {
     
     private ArrayList<String> que=null;     //to store questions first hand after receiving from the database
     private ArrayList<String> opt=null;     //to store options first hand after receiving from the database
-    private ArrayList<String> select=null;  //to store the selected options
-    private static int i=1;
-    private static int l=1;
+    private ArrayList<String> select= new ArrayList<>();  //to store the selected options
+    private ArrayList<String> ans = null;  //to store the corect option of the given question
+
+    private int user;                     //to store user id
     
-    private int no=1;
+    private static int l=1;
+    private static int in = 0;
+    
+    private static int point=0;
     
     private String option;                  //to store options all at once
     private String[] optn2 = null;          //to store options in different index
-    /**
-     * Creates new form ScienceModule2
-     */
+    private String type = null;
+    
     public GKModule() {
         initComponents();
         
@@ -41,13 +46,15 @@ public class GKModule extends QuestionList {
         btn_finish.setVisible(false);
     }
     
-    public GKModule(String unit) {
+    public GKModule(String unit, String type) {
         initComponents();
         
         listQuestion();         //list the questions as soon as the module opens
                 
         btn_prev.setVisible(false);
         btn_finish.setVisible(false);
+        
+        this.type = type;
     }
 
     @SuppressWarnings("unchecked")
@@ -72,12 +79,30 @@ public class GKModule extends QuestionList {
         btn_group.add(opt4);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         lbl_que.setText("Question");
 
         opt1.setText("Option1");
+        opt1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opt1ActionPerformed(evt);
+            }
+        });
 
         opt2.setText("Option2");
+        opt2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                opt2ActionPerformed(evt);
+            }
+        });
 
         opt3.setText("Option3");
         opt3.addActionListener(new java.awt.event.ActionListener() {
@@ -194,85 +219,24 @@ public class GKModule extends QuestionList {
     //this function is written to list the remaining question other than first
     private void btn_nxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_nxtActionPerformed
         btn_group.clearSelection();
-        no++;
-        lbl_num.setText(Integer.toString(no));
         
         Object source = evt.getSource();    //get the event source in the variable 'source'
                  
         GKChapterController ch = new GKChapterController();     //initialized GKChapterController
         if(source.equals(btn_nxt)){                      //checks if the button is clicked
             
-//            que.clear();
-//            opt.clear();
-//            
-//            select = new ArrayList<>();
-//                        
-//            que = new ArrayList<>();                         //initialize the 'que' variable of ArrayList 
-//            que.addAll(ch.getContent(l));                    //Add all the values received from the function 'getContent' of GKChapterController
-//            lbl_que.setText(que.get(0));                     //set the text on 'lbl_que' which was stored in ArrayList 'que'
-//            
-//            opt = new ArrayList<>();
-//            opt.addAll(ch.getOptions(l));                   //add all the option on ArrayList 'opt'
-//            
-//            option = opt.get(0);                            
-//            optn2=option.split(",");                        //the value on 'option' is received by array of 'optn2' variable...
-//                                                            //...on each index of 'opt2'
-//            opt1.setText(optn2[0]);
-//            opt2.setText(optn2[1]);
-//            opt3.setText(optn2[2]);
-//            opt4.setText(optn2[3]);
+            lbl_num.setText(Integer.toString(l));
+            listQuestion(l);
             
-            listQuestion();
-
-            l++;                                            //increment the value of l by 1
-            
-//            Enumeration<AbstractButton> allRadioButton=btn_group.getElements();  
-//            while(!allRadioButton.equals(""))  
-//            {  
-//               JRadioButton temp=(JRadioButton)allRadioButton.nextElement(); 
-//                System.out.println(temp.getText()+" || ");
-//               if(temp.getText().contains(""))  
-//               {  
-//                   JOptionPane.showMessageDialog(null,"Please select one option!");  
-//               } 
-//               else{
-//                   btn_nxtActionPerformed(evt);
-//               }
-//            }
+            selectedOption();
             
             if(l>10){                               //checks if 'que' is empty        
                 if(source.equals(btn_nxt)){              //checks if the button is clicked
-//                    Point pnt = new Point();                //initilize Point 'pnt' variable
-//                    pnt.setVisible(true);                   //make the frame 'pnt' visibkle
-//                    pnt.setLocation(pnl_gkmod.getWidth()-200, pnl_gkmod.getHeight()-200); //set the location of 'pnt'
-
+                    
                     btn_nxt.setVisible(false);
                     btn_finish.setVisible(true);
                 }
             }
-            
-            btn_prev.setVisible(true);
-            
-            //if(source.equals(btn_nxt)){             //checks if button clicked is button next
-//                ButtonModel sel = btn_group.getSelection();
-//                if(sel.toString().contains("")){
-//                    JOptionPane.showMessageDialog(null, "Please select one option!");
-//                }
-//                else{
-//                    btn_prev.setVisible(true);          //set the button visibility to true
-//                    select.add(btn_group.getSelection().toString());
-//                }
-
-//                String sel = getSelectedButtonText(btn_group);
-//                System.out.println(sel+" :wdqd s");
-//                if(sel.contains("")){
-//                    JOptionPane.showMessageDialog(null, "Please select one option!");
-//                }
-//                else{
-//                    btn_prev.setVisible(true);          //set the button visibility to true
-//                    select.add(btn_group.getSelection().toString());
-//                }
-            //}
             
             if(source.equals(btn_prev)){
                 l--;
@@ -286,48 +250,67 @@ public class GKModule extends QuestionList {
         }
     }//GEN-LAST:event_btn_nxtActionPerformed
 
+    private void btn_finishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_finishActionPerformed
+        this.dispose();
+        
+        select.addAll(removeDuplicate(select));
+        
+        point=getPoint(select, ans);
+        
+        select.clear();
+        ans.clear();
+        
+        this.setVisible(false);
+        
+        if(type.equals("Module")){
+            Point pnt = new Point(point, user, "GKChapter");  //initilize Point 'pnt' variable
+            pnt.setVisible(true);             //make the frame 'pnt' visibkle
+            pnt.setLocation(pnl_gkmod.getWidth()-200, pnl_gkmod.getHeight()-200); //set the location of 'pnt'
+        }
+        else{
+            Score score = new Score(point, user, "GKChapter");
+            score.setVisible(true);
+            score.setLocationRelativeTo(null);
+        }
+    }//GEN-LAST:event_btn_finishActionPerformed
+
+    private void opt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt4ActionPerformed
+        
+    }//GEN-LAST:event_opt4ActionPerformed
+
+    private void opt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt1ActionPerformed
+       
+    }//GEN-LAST:event_opt1ActionPerformed
+
+    private void opt2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_opt2ActionPerformed
+
     //this function is written to list previous question that have been displayed earlier
     private void btn_prevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_prevActionPerformed
         btn_group.clearSelection();
-        lbl_num.setText(Integer.toString(no));
-        no--;
 
         l--;                                            //decrement the value of 'l' by 1
-        
-        Object source = evt.getSource();    //get the event source in the variable 'source'
-        
-        GKChapterController ch = new GKChapterController();     //initialized GKChapterController
-        
-        if(source.equals(btn_prev)){                      //checks if the button is clicked
-            
-            que.clear();
-            opt.clear();
-            
-            que = new ArrayList<>();                         //initialize the 'que' variable of ArrayList 
-            que.addAll(ch.getContent(l));                    //Add all the values received from the function 'getContent' of GKChapterController
-            lbl_que.setText(que.get(0));                     //set the text on 'lbl_que' which was stored in ArrayList 'que'
-                        
-            opt = new ArrayList<>();
-            opt.addAll(ch.getOptions(l));
-            
-            option = opt.get(0);
-            optn2=option.split(",");
 
-            opt1.setText(optn2[0]);
-            opt2.setText(optn2[1]);
-            opt3.setText(optn2[2]);
-            opt4.setText(optn2[3]);
-            
+        Object source = evt.getSource();    //get the event source in the variable 'source'
+
+        GKChapterController ch = new GKChapterController();     //initialized GKChapterController
+
+        if(source.equals(btn_prev)){                      //checks if the button is clicked
+
+            lbl_num.setText(Integer.toString(l));
+            listQuestion(l);
+
             if(source.equals(btn_prev)){                    //checks if button clicked is button previous
                 btn_nxt.setVisible(true);                   //set the button visibility to true
             }
-            
+
             if(l<=1){                               //checks if the value of 'l' is less than or equal to 1
-                if(source.equals(btn_prev)){        //checks if the button clicked is button previous 
+                if(source.equals(btn_prev)){        //checks if the button clicked is button previous
                     btn_prev.setVisible(false);     //set the button visibility to false
                 }
             }
-            
+
             if(source.equals(btn_nxt)){
                 l++;
                 btn_nxt.addActionListener(new ActionListener() {
@@ -340,23 +323,51 @@ public class GKModule extends QuestionList {
         }
     }//GEN-LAST:event_btn_prevActionPerformed
 
-    private void btn_finishActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_finishActionPerformed
-        this.dispose();
-        //Point pnt = new Point();
-        
-    }//GEN-LAST:event_btn_finishActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        removeAll();
+    }//GEN-LAST:event_formWindowClosed
 
-    private void opt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_opt4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_opt4ActionPerformed
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        removeAll();
+    }//GEN-LAST:event_formWindowClosing
 
     
     //this function is created to list first question of a set
-    public void listQuestion(){
-        btn_group.clearSelection();
-        lbl_num.setText(Integer.toString(no));
+    public void listQuestion(){        
+        ans = new ArrayList<>();
         
         int j=1;                                            //value of 'j' is provided
+        
+        lbl_num.setText(Integer.toString(j));
+        
+        GKChapterController ch = new GKChapterController();     //initialized GKChapterController
+                       
+        que = new ArrayList<>();                             //initialize the 'que' variable of ArrayList 
+        que.addAll(ch.getContent(j));                        //Add all the values received from the function 'getContent' of GKChapterController
+        lbl_que.setText(que.get(0));                         //set the text on 'lbl_que' which was stored in ArrayList 'que'
+        l=2;
+        
+        ans.add(que.get(1));
+        //System.out.println(que.get(1));
+        
+        opt = new ArrayList<>();                            //initialize the 'opt' variable of ArrayList 
+        opt.addAll(ch.getOptions(j));
+        
+        option = opt.get(0);
+        optn2=option.split(" sp ");
+        
+        opt1.setText(optn2[0]);
+        opt2.setText(optn2[1]);
+        opt3.setText(optn2[2]);
+        opt4.setText(optn2[3]);
+        
+        selectedOption();
+    }
+    
+    public void listQuestion(int j){
+        System.out.println(j);
+        btn_group.clearSelection();
+        lbl_num.setText(Integer.toString(j));
         
         GKChapterController ch = new GKChapterController();     //initialized GKChapterController
                        
@@ -365,60 +376,71 @@ public class GKModule extends QuestionList {
         lbl_que.setText(que.get(0));                         //set the text on 'lbl_que' which was stored in ArrayList 'que'
         l++;                                                //increment the value of l by 1
         
+        ans.add(que.get(1));    
+
         opt = new ArrayList<>();                            //initialize the 'opt' variable of ArrayList 
         opt.addAll(ch.getOptions(j));
         
         option = opt.get(0);
-        optn2=option.split(",");
+        optn2=option.split(" sp ");
         
         opt1.setText(optn2[0]);
         opt2.setText(optn2[1]);
         opt3.setText(optn2[2]);
         opt4.setText(optn2[3]);
+        
+        que.clear();
+        opt.clear();
+        
+        btn_prev.setVisible(true);
     }
     
-    public String getSelectedButtonText(ButtonGroup buttonGroup) {
-        for (Enumeration<AbstractButton> buttons = buttonGroup.getElements(); buttons.hasMoreElements();) {
-            AbstractButton button = buttons.nextElement();
-
-            if (button.isSelected()) {
-                return button.getText();
+    public void selectedOption(){
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() instanceof JRadioButton){
+                    JRadioButton radioButton = (JRadioButton) e.getSource();
+                    if(radioButton.isSelected()){
+                        select.add(in, radioButton.getText());
+                        System.out.println(radioButton.getText()+"  "+in);
+                        radioButton.removeAll();
+                    }
+                    in++;
+                }
+            }
+        };
+        
+        opt1.addActionListener(actionListener);
+        opt2.addActionListener(actionListener);
+        opt3.addActionListener(actionListener);
+        opt4.addActionListener(actionListener);
+    }
+    
+    public int getPoint (ArrayList<String> copt, ArrayList<String> answer){ 
+        int che=0;
+        for(int ch=0; ch<copt.size(); ch++){
+            for(int x=0; x<answer.size(); x++){
+                if(copt.get(ch).equals(answer.get(x))){
+                    System.out.println(copt.get(ch)+" equals "+answer.get(x));
+                    che++;
+                }
             }
         }
-
-        return null;
-    } 
-    
-    public void selectOption(ArrayList<String> opt){
-        while(!opt.contains("")){
-            Enumeration<AbstractButton> allRadioButton=btn_group.getElements();  
-            while(!allRadioButton.equals(""))  
-            {  
-               JRadioButton temp=(JRadioButton)allRadioButton.nextElement(); 
-                System.out.println(temp.getText()+" || ");
-               if(temp.getText().contains(""))  
-               {  
-                   JOptionPane.showMessageDialog(null,"Please select one option!");  
-               } 
-               else{
-                   btn_nxt.addActionListener(new ActionListener() {
-                       @Override
-                       public void actionPerformed(ActionEvent e) {
-                           btn_nxt.addActionListener(this);
-                       }
-                   });
-               }
-            }
-        }        
+        
+        return che;
     }
     
-    public static void main(String args[]) {
+    public ArrayList<String> removeDuplicate(ArrayList<String> copt){
+        System.out.println("Old "+copt);
+        Set<String> primesWithoutDuplicates;
+        primesWithoutDuplicates = new LinkedHashSet<String>(copt);
         
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GKModule().setVisible(true);
-            }
-        });
+        copt.clear();
+        copt.addAll(primesWithoutDuplicates);
+        
+        System.out.println(copt);
+        return copt;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
