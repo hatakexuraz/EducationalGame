@@ -53,9 +53,10 @@ public class MathsAssessment extends QuestionList {
         }
     }
 
-    public MathsAssessment(String unit) {
+    public MathsAssessment(String unit, int id) {
         try{
             this.unit = unit;
+            this.user = id;
 
             initComponents();       //list the questions as soon as the module opens
 

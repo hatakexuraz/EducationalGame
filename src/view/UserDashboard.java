@@ -60,14 +60,14 @@ public class UserDashboard extends javax.swing.JFrame {
 
         lbl_pnt.setText("View point on assessments");
 
-        cmb_mod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GK", "Maths" }));
+        cmb_mod.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GK Set-1", "GK Set-2", "GK Set-3", "Numbers", "Arithmetics", "Whole Number" }));
         cmb_mod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_modActionPerformed(evt);
             }
         });
 
-        cmb_asmnt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GK", "Maths" }));
+        cmb_asmnt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "GK Set-1", "GK Set-2", "GK Set-3", "Numbers", "Arithmetics", "Whole Number" }));
         cmb_asmnt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmb_asmntActionPerformed(evt);
@@ -196,7 +196,7 @@ public class UserDashboard extends javax.swing.JFrame {
         try{
             String option= (String)cmb_option.getSelectedItem();
         
-            Dashboard db = new Dashboard(option);
+            Dashboard db = new Dashboard(option, user);
             db.setVisible(true);
             db.setLocationRelativeTo(null);
         }

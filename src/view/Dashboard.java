@@ -9,6 +9,7 @@ public class Dashboard extends javax.swing.JFrame {
     private String mod=null;
     private String unit=null;
     private String option = null;
+    private int id;
     /**
      * Creates new form Dashboard
      */
@@ -18,10 +19,11 @@ public class Dashboard extends javax.swing.JFrame {
         pnl_math.setVisible(false);
     }
     
-    public Dashboard(String option) {
+    public Dashboard(String option, int id) {
         initComponents();
         
         this.option = option;
+        this.id = id;
         
         pnl_math.setVisible(false);
     }
@@ -30,7 +32,9 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         pnl_header = new javax.swing.JPanel();
+        btn_back = new javax.swing.JButton();
         pnl_cmp = new javax.swing.JPanel();
         lbl_mes = new javax.swing.JLabel();
         cmb_modules = new javax.swing.JComboBox<>();
@@ -45,21 +49,36 @@ public class Dashboard extends javax.swing.JFrame {
         pane_gk = new javax.swing.JScrollPane();
         tbl_gk = new javax.swing.JTable();
 
+        jButton1.setText("jButton1");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(2, 83, 163));
         setForeground(new java.awt.Color(66, 106, 226));
 
         pnl_header.setBackground(java.awt.Color.white);
 
+        btn_back.setText("Back");
+        btn_back.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_backActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnl_headerLayout = new javax.swing.GroupLayout(pnl_header);
         pnl_header.setLayout(pnl_headerLayout);
         pnl_headerLayout.setHorizontalGroup(
             pnl_headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_headerLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_back, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         pnl_headerLayout.setVerticalGroup(
             pnl_headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 50, Short.MAX_VALUE)
+            .addGroup(pnl_headerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btn_back)
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pnl_cmp.setBackground(new java.awt.Color(175, 207, 239));
@@ -205,7 +224,7 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(pane_contentLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pnl_math, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
             .addGroup(pane_contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(pane_contentLayout.createSequentialGroup()
                     .addContainerGap()
@@ -242,24 +261,23 @@ public class Dashboard extends javax.swing.JFrame {
         if(mod.equals("GK")){
             unit = (String) tbl_gk.getValueAt(tbl_gk.getSelectedRow(), tbl_gk.getSelectedColumn());
             
-            GKModule sc = new GKModule(unit, option);
+            GKModule sc = new GKModule(unit, option, id);
             sc.setVisible(true);
             sc.setLocationRelativeTo(null);
         }
         else{
             unit = (String) tbl_maths.getValueAt(tbl_maths.getSelectedRow(), tbl_maths.getSelectedColumn());
             
-            if(unit.equals("Arithmetics")){
-                MathsAssessment ma = new MathsAssessment(unit);
-                ma.setVisible(true);
-                ma.setLocationRelativeTo(null);
+            if(option.equals("Assessment")){
+                    MathsAssessment ma = new MathsAssessment(unit, id);
+                    ma.setVisible(true);
+                    ma.setLocationRelativeTo(null);
             }
             else{
-                MathsModule math = new MathsModule(unit);
-                math.setVisible(true);
-                math.setLocationRelativeTo(null);
+                    MathsModule math = new MathsModule(unit, id);
+                    math.setVisible(true);
+                    math.setLocationRelativeTo(null);
             }
-            
         }
     }//GEN-LAST:event_btn_startActionPerformed
 
@@ -283,9 +301,16 @@ public class Dashboard extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lbl_setMouseClicked
 
+    private void btn_backActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_backActionPerformed
+        UserDashboard ud = new UserDashboard(id, option);
+        ud.setVisible(true);ud.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btn_backActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_back;
     private javax.swing.JButton btn_start;
     private javax.swing.JComboBox<String> cmb_modules;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbl_mes;
     private javax.swing.JLabel lbl_point;
     private javax.swing.JLabel lbl_set;

@@ -164,7 +164,7 @@
         <Component class="javax.swing.JComboBox" name="cmb_mod">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;GK&quot;, &quot;Maths&quot; })" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;GK Set-1&quot;, &quot;GK Set-2&quot;, &quot;GK Set-3&quot;, &quot;Numbers&quot;, &quot;Arithmetics&quot;, &quot;Whole Number&quot; })" type="code"/>
             </Property>
           </Properties>
           <Events>
@@ -177,7 +177,7 @@
         <Component class="javax.swing.JComboBox" name="cmb_asmnt">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;GK&quot;, &quot;Maths&quot; })" type="code"/>
+              <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot;GK Set-1&quot;, &quot;GK Set-2&quot;, &quot;GK Set-3&quot;, &quot;Numbers&quot;, &quot;Arithmetics&quot;, &quot;Whole Number&quot; })" type="code"/>
             </Property>
           </Properties>
           <Events>

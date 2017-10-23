@@ -47,7 +47,7 @@ public class MathsModule extends QuestionList {
         btn_finish.setVisible(false);
     }
 
-    public MathsModule(String unit) {
+    public MathsModule(String unit, int id) {
         this.unit = unit;
         
         initComponents();       //list the questions as soon as the module opens
@@ -56,6 +56,8 @@ public class MathsModule extends QuestionList {
         
         btn_prev.setVisible(false);
         btn_finish.setVisible(false);
+        
+        this.user = id;
     }
     
     @SuppressWarnings("unchecked")

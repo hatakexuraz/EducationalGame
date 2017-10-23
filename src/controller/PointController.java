@@ -47,8 +47,8 @@ public class PointController {
              try{                
                 pstmt = con.prepareStatement(query);
                 pstmt.setInt(1, user);
-                pstmt.setInt(2, point);
-                pstmt.setString(3, chapter);
+                pstmt.setString(2, chapter);
+                pstmt.setInt(3, point);
 
                 pstmt.executeUpdate();            
             }

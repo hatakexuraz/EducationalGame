@@ -36,6 +36,7 @@ public class GKModule extends QuestionList {
     private String option;                  //to store options all at once
     private String[] optn2 = null;          //to store options in different index
     private String type = null;
+    private String unit = null;
     
     public GKModule() {
         initComponents();
@@ -46,7 +47,7 @@ public class GKModule extends QuestionList {
         btn_finish.setVisible(false);
     }
     
-    public GKModule(String unit, String type) {
+    public GKModule(String unit, String type, int id) {
         initComponents();
         
         listQuestion();         //list the questions as soon as the module opens
@@ -55,6 +56,8 @@ public class GKModule extends QuestionList {
         btn_finish.setVisible(false);
         
         this.type = type;
+        this.unit = unit;
+        this.user = id;
     }
 
     @SuppressWarnings("unchecked")
@@ -263,12 +266,12 @@ public class GKModule extends QuestionList {
         this.setVisible(false);
         
         if(type.equals("Module")){
-            Point pnt = new Point(point, user, "GKChapter");  //initilize Point 'pnt' variable
+            Point pnt = new Point(point, user, unit);  //initilize Point 'pnt' variable
             pnt.setVisible(true);             //make the frame 'pnt' visibkle
             pnt.setLocation(pnl_gkmod.getWidth()-200, pnl_gkmod.getHeight()-200); //set the location of 'pnt'
         }
         else{
-            Score score = new Score(point, user, "GKChapter");
+            Score score = new Score(point, user, unit);
             score.setVisible(true);
             score.setLocationRelativeTo(null);
         }
@@ -348,7 +351,6 @@ public class GKModule extends QuestionList {
         l=2;
         
         ans.add(que.get(1));
-        //System.out.println(que.get(1));
         
         opt = new ArrayList<>();                            //initialize the 'opt' variable of ArrayList 
         opt.addAll(ch.getOptions(j));
@@ -365,7 +367,6 @@ public class GKModule extends QuestionList {
     }
     
     public void listQuestion(int j){
-        System.out.println(j);
         btn_group.clearSelection();
         lbl_num.setText(Integer.toString(j));
         
@@ -403,7 +404,7 @@ public class GKModule extends QuestionList {
                     JRadioButton radioButton = (JRadioButton) e.getSource();
                     if(radioButton.isSelected()){
                         select.add(in, radioButton.getText());
-                        System.out.println(radioButton.getText()+"  "+in);
+                        System.out.println(in+""+select);
                         radioButton.removeAll();
                     }
                     in++;
@@ -422,7 +423,6 @@ public class GKModule extends QuestionList {
         for(int ch=0; ch<copt.size(); ch++){
             for(int x=0; x<answer.size(); x++){
                 if(copt.get(ch).equals(answer.get(x))){
-                    System.out.println(copt.get(ch)+" equals "+answer.get(x));
                     che++;
                 }
             }
@@ -432,14 +432,12 @@ public class GKModule extends QuestionList {
     }
     
     public ArrayList<String> removeDuplicate(ArrayList<String> copt){
-        System.out.println("Old "+copt);
         Set<String> primesWithoutDuplicates;
         primesWithoutDuplicates = new LinkedHashSet<String>(copt);
         
         copt.clear();
         copt.addAll(primesWithoutDuplicates);
         
-        System.out.println(copt);
         return copt;
     }
 
